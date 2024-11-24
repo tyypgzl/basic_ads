@@ -1,0 +1,15 @@
+name: basic_ads
+description: "A Flutter Google Ads Package"
+homepage: https://tguzel.dev
+version: 1.0.0
+
+environment:
+  sdk: ^3.5.4
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  basic_lint: ^1.0.0+1
