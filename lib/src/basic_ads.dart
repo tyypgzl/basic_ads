@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:basic_ads/src/cache/cache.dart';
 import 'package:basic_ads/src/config/basic_ads_config.dart';
 import 'package:basic_ads/src/exception/exception.dart';
 import 'package:flutter/foundation.dart';
@@ -9,8 +10,9 @@ final class BasicAds {
   BasicAds._()
       : _config = const BasicAdsConfig(),
         interstitialAd = const BasicInterstitialAd(),
-        appOpenAd = const BasicAppOpenAd(),
+        cache = const Cache(),
         rewardedAd = const BasicRewardedAd();
+
   static final BasicAds _instance = BasicAds._();
 
   static BasicAds get instance => _instance;
@@ -18,8 +20,9 @@ final class BasicAds {
   BasicAdsConfig _config;
 
   final BasicInterstitialAd interstitialAd;
-  final BasicAppOpenAd appOpenAd;
   final BasicRewardedAd rewardedAd;
+  final Cache cache;
+  DateTime? _appOpenAdsLastShowTime;
 
   Future<void> initialize({
     required BasicAdsConfig config,
@@ -35,12 +38,15 @@ final class BasicAds {
         );
       }
       _config = config;
+      _appOpenAdsLastShowTime = await cache.readLastShowTime();
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(BasicAdsException(error), stackTrace);
     }
   }
 
   BasicAdsConfig get config => _config;
+
+  DateTime? get appOpenAdsLastShowTime => _appOpenAdsLastShowTime;
 }
 
 final class BasicInterstitialAd {
@@ -65,37 +71,6 @@ final class BasicInterstitialAd {
         },
       );
       await interstitialAd.show();
-    } catch (error, stackTrace) {
-      Error.throwWithStackTrace(
-        BasicAdsException(error),
-        stackTrace,
-      );
-    }
-  }
-}
-
-final class BasicAppOpenAd {
-  const BasicAppOpenAd();
-
-  Future<void> show() async {
-    try {
-      final completer = Completer<AppOpenAd>();
-      await AppOpenAd.load(
-        adUnitId: BasicAds.instance.config.appOpenAdIds.platform,
-        request: const AdRequest(),
-        adLoadCallback: AppOpenAdLoadCallback(
-          onAdLoaded: completer.complete,
-          onAdFailedToLoad: completer.completeError,
-        ),
-      );
-      final appOpenAd = await completer.future;
-      appOpenAd.fullScreenContentCallback = FullScreenContentCallback(
-        onAdDismissedFullScreenContent: (ad) => ad.dispose(),
-        onAdFailedToShowFullScreenContent: (ad, error) {
-          ad.dispose();
-        },
-      );
-      await appOpenAd.show();
     } catch (error, stackTrace) {
       Error.throwWithStackTrace(
         BasicAdsException(error),

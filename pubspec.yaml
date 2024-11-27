@@ -12,7 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
 
+  #ADS
   google_mobile_ads: ^5.2.0
+
+  #CACHE
+  shared_preferences: ^2.3.3
 
 dev_dependencies:
   basic_lint: ^1.0.0+1
