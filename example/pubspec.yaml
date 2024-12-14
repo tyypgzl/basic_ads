@@ -9,6 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
+  basic_ads:
+    path: ../
 
 dev_dependencies:
   flutter_test:
