@@ -107,7 +107,7 @@ FilledButton.tonal(
 );
 ```
 
-7. Show App Open Ads
+### 7. Show App Open Ads
 
 Wrap the widget that top of the widget tree with `BasicAppOpenAdWidget`. This will show the app open ads. Or you can wrap to `runApp` method or `MaterialApp` widget.
 
@@ -122,7 +122,7 @@ runApp(
 );
 ```
 
-- displayMode(Enum)
+ ###### displayMode(Enum)
 
 It's about when you show adverts. You can choose one of the following options.
 
@@ -134,7 +134,8 @@ It's about when you show adverts. You can choose one of the following options.
   - `AppOpenAdDisplayMode.onlyAppStateChangedToForeground`
   Show the ad only when the app is switched to the background and then to the foreground.
 
-- replayInterval(Duration)
+
+###### replayInterval(Duration)
 
 It's about how often you show adverts. If you set the value to 1 day, the ad will be shown once a day. 
 > Default value is 1 day.
